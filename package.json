@@ -1,0 +1,23 @@
+{
+  "name": "cypress-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "npx cypress open",
+    "cy:run":"npx cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shevtma/cypress-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shevtma/cypress-test/issues"
+  },
+  "homepage": "https://github.com/Shevtma/cypress-test#readme",
+  "devDependencies": {
+    "cypress": "^12.1.0"
+  }
+}
