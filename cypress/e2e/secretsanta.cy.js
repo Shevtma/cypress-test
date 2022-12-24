@@ -1,4 +1,4 @@
-describe("Sercet Santa spec", () => {
+describe("Secret Santa spec", () => {
   beforeEach(() => {
     cy.visit("https://staging.lpitko.ru/");
   });
