@@ -14,17 +14,13 @@ describe("Secret Santa tests after login spec", () => {
   // Перед каждым тестом логинимся на сайте
   beforeEach(() => {
     cy.visit("/login");
-    cy.get("input[name=email]").type(email);
-    cy.get("input[name=password]").type(password);
-    cy.get(".form-auth__button").click();
+    cy.login(email, password);
   });
 
   it('Проверяем, что на странице есть ссылка "Коробки" ', () => {
-    cy.get('a[href*="/account/boxes"]', { timeout: 5000 }).should("be.visible");
-    cy.get("div > a", { timeout: 2000 })
-      .first()
-      .should("have.attr", "href", "/account/boxes");
-    cy.get(".header-item__text", { timeout: 2000 })
+    cy.get('a[href*="/account/boxes"]').should("be.visible");
+    cy.get("div > a").first().should("have.attr", "href", "/account/boxes");
+    cy.get(".header-item__text")
       .first()
       .within(() => {
         cy.contains("Коробки");
@@ -32,19 +28,19 @@ describe("Secret Santa tests after login spec", () => {
   });
 
   it("Проверяем, что на странице есть ссылка на личный кабинет ", () => {
-    cy.get('a[href*="/account"]', { timeout: 5000 }).should("be.visible");
-    cy.get("div > a:nth-of-type(2)", { timeout: 2000 })
+    cy.get('a[href*="/account"]').should("be.visible");
+    cy.get("div > a:nth-of-type(2)")
       .first()
       .should("have.attr", "href", "/account");
     cy.contains("Maria");
   });
 
   it("Проверяем, что на странице есть кнопка Создать коробку ", () => {
-    cy.get("div.home-page-buttons > a", { timeout: 5000 })
+    cy.get("div.home-page-buttons > a")
       .first()
       .should("have.attr", "href", "/box/new");
-    cy.get("div.btn-main", { timeout: 2000 }).should("be.visible", true);
-    cy.get("div.btn-main", { timeout: 2000 }).should(
+    cy.get("div.btn-main").should("be.visible", true);
+    cy.get("div.btn-main").should(
       "have.text",
       "Создать коробкуСоздать коробку"
     );
@@ -52,15 +48,20 @@ describe("Secret Santa tests after login spec", () => {
   });
 
   it("Проверяем, что на странице есть кнопка Быстрая жеребьевка ", () => {
-    cy.contains("Быстрая жеребьевка", { timeout: 5000 });
-    cy.get("div.home-page-buttons > a", { timeout: 2000 })
+    cy.get("div.home-page-buttons > a")
       .last()
       .should("have.attr", "href", "/randomizer");
-    cy.get("div.btn-secondary", { timeout: 2000 }).should("be.visible", true);
-    cy.get("div.btn-secondary", { timeout: 2000 }).should(
+    cy.get("div.btn-secondary").should("be.visible", true);
+    cy.get("div.btn-secondary").should(
       "have.text",
       "Быстрая жеребьевкаУзнать подопечногоЧастые вопросы"
     );
+    cy.contains("Быстрая жеребьевка");
+  });
+
+  afterEach(() => {
+    cy.visit("/account");
+    cy.get(".form-page__header > .base--clickable").click();
   });
 });
 
