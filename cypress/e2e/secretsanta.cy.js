@@ -1,6 +1,6 @@
 describe("Secret Santa spec", () => {
   beforeEach(() => {
-    cy.visit("https://staging.lpitko.ru/");
+    cy.visit("/");
   });
 
   it('Проверяем, что на странице есть текст "тайный санта." ', () => {
