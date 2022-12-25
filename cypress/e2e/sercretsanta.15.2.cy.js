@@ -40,24 +40,24 @@ describe("Secret Santa tests after login spec", () => {
   });
 
   it("Проверяем, что на странице есть кнопка Создать коробку ", () => {
-    cy.contains("Создать коробку");
-    cy.get("div.home-page-buttons > a")
+    cy.get("div.home-page-buttons > a", { timeout: 5000 })
       .first()
       .should("have.attr", "href", "/box/new");
-    cy.get("div.btn-main", { timeout: 5000 }).should("be.visible", true);
-    cy.get("div.btn-main").should(
+    cy.get("div.btn-main", { timeout: 2000 }).should("be.visible", true);
+    cy.get("div.btn-main", { timeout: 2000 }).should(
       "have.text",
       "Создать коробкуСоздать коробку"
     );
+    cy.contains("Создать коробку");
   });
 
   it("Проверяем, что на странице есть кнопка Быстрая жеребьевка ", () => {
-    cy.contains("Быстрая жеребьевка");
-    cy.get("div.home-page-buttons > a")
+    cy.contains("Быстрая жеребьевка", { timeout: 5000 });
+    cy.get("div.home-page-buttons > a", { timeout: 2000 })
       .last()
       .should("have.attr", "href", "/randomizer");
     cy.get("div.btn-secondary", { timeout: 2000 }).should("be.visible", true);
-    cy.get("div.btn-secondary").should(
+    cy.get("div.btn-secondary", { timeout: 2000 }).should(
       "have.text",
       "Быстрая жеребьевкаУзнать подопечногоЧастые вопросы"
     );
