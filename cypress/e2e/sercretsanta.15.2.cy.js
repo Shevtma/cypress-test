@@ -1,9 +1,21 @@
 describe("Secret Santa tests after login spec", () => {
+  var email = ""; //Cypress.env("email");
+  var password = ""; //Cypress.env("password");
+  var env = Cypress.env("environment");
+
+  if (env == "staging") {
+    email = "shevtma@yandex.ru";
+    password = "ZU9590";
+  } else {
+    email = "shevtma@gmail.com";
+    password = "RP7105";
+  }
+
   // Перед каждым тестом логинимся на сайте
   beforeEach(() => {
     cy.visit("/login");
-    cy.get("input[name=email]").type("shevtma@yandex.ru");
-    cy.get("input[name=password]").type("ZU9590");
+    cy.get("input[name=email]").type(email);
+    cy.get("input[name=password]").type(password);
     cy.get(".form-auth__button").click();
   });
 

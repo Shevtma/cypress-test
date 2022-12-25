@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cy:open": "npx cypress open",
-    "cy:run":"npx cypress run --spec cypress/e2e/sercretsanta.15.2.cy.js",
-    "cy:dashboard:run": "npx cypress run --record --key e1db83cf-bbc7-4bda-bd53-62a7a29b8cd0"
+    "cy:open": "npx cypress open --config-file cypress.prod.config.js",
+    "cy:run:test":"npx cypress run --config-file cypress.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js",
+    "cy:run:prod":"npx cypress run --config-file cypress.prod.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js",
+    "cy:dashboard:run:test": "npx cypress run --record --key e1db83cf-bbc7-4bda-bd53-62a7a29b8cd0 --config-file cypress.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js",
+    "cy:dashboard:run:prod": "npx cypress run --record --key e1db83cf-bbc7-4bda-bd53-62a7a29b8cd0 --config-file cypress.prod.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js"
   },
   "repository": {
     "type": "git",
