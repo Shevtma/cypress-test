@@ -31,3 +31,21 @@ Cypress.Commands.add("login", (email, password) => {
   cy.contains("тайный санта.", { timeout: 10000 });
 });
 
+Cypress.Commands.add(
+  "inputData",
+  (input1Selector, input2Selector, btnSelector, input1Text, input2Text) => {
+    cy.get(input1Selector).type(input1Text);
+    cy.get(input2Selector).type(input2Text);
+    cy.get(btnSelector).click();
+  }
+);
+
+Cypress.Commands.add("randomEmail", (len) => {
+  chrs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  var str = "";
+  for (var i = 0; i < len; i++) {
+    var pos = Math.floor(Math.random() * chrs.length);
+    str += chrs.substring(pos, pos + 1);
+  }
+  return str;
+});
