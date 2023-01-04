@@ -224,7 +224,6 @@ describe("Secret Santa. Тесты для формы регистрации", ()
 
   it("Тестируем форму регистрации. Попытка регистрации пользователя (данные корректны)", () => {
     const newEmail = randomEmail(6) + "@mail.com";
-    cy.log(randomEmail);
     cy.inputData(
       input1Selector,
       input2Selector,
