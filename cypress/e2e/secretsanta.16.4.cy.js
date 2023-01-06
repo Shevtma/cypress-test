@@ -134,7 +134,7 @@ describe("Secret Santa. Тесты для формы регистрации", ()
   });
 
   it("Тестируем форму регистрации. Попытка регистрации с пустым email", () => {
-    registerPage.register("registerData[0].userName", "");
+    registerPage.register(registerData[0].userName, "");
     cy.get(registerFieldsSelectors.regErrLabelSelector)
       .should("be.visible")
       .should("have.text", "Некорректное поле");
