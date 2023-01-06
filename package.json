@@ -5,16 +5,16 @@
   "main": "index.js",
   "scripts": {
     "cy:open": "npx cypress open",
-    "cy:run:test":"npx cypress run --config-file cypress.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js",
-    "cy:run:prod":"npx cypress run --config-file cypress.prod.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js",
+    "cy:run:test": "npx cypress run --config-file cypress.config.js --spec cypress/e2e/secretsanta.16.4.cy.js",
+    "cy:run:prod": "npx cypress run --config-file cypress.prod.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js",
     "cy:dashboard:run:test": "npx cypress run --record --key e1db83cf-bbc7-4bda-bd53-62a7a29b8cd0 --config-file cypress.config.js --spec cypress/e2e/secretsanta.16.4.cy.js",
     "cy:dashboard:run:prod": "npx cypress run --record --key e1db83cf-bbc7-4bda-bd53-62a7a29b8cd0 --config-file cypress.prod.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js",
     "cy:run:test:chrome": "npx cypress run --browser chrome --config-file cypress.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js ",
     "cy:run:test:electron": "npx cypress run --browser electron --config-file cypress.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js ",
-    "cy:run:test:all":"npm run cy:run:test:chrome && npm run cy:run:test:electron",
+    "cy:run:test:all": "npm run cy:run:test:chrome && npm run cy:run:test:electron",
     "cy:dashboard:run:test:chrome": "npx cypress run --browser chrome --record --key e1db83cf-bbc7-4bda-bd53-62a7a29b8cd0 --config-file cypress.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js",
     "cy:dashboard:run:test:electron": "npx cypress run --browser electron --record --key e1db83cf-bbc7-4bda-bd53-62a7a29b8cd0 --config-file cypress.config.js --spec cypress/e2e/sercretsanta.15.2.cy.js",
-    "cy:dashboard:run:test:all":"npm run cy:dashboard:run:test:chrome && npm run cy:dashboard:run:test:electron"
+    "cy:dashboard:run:test:all": "npm run cy:dashboard:run:test:chrome && npm run cy:dashboard:run:test:electron"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/Shevtma/cypress-test#readme",
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "cypress": "^12.1.0"
   }
 }
