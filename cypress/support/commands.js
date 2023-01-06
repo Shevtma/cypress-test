@@ -24,19 +24,32 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("login", (email, password) => {
-  cy.get("input[name=email]").type(email);
-  cy.get("input[name=password]").type(password);
-  cy.get(".form-auth__button").click();
-  cy.contains("тайный санта.", { timeout: 10000 });
-});
-
 Cypress.Commands.add(
   "inputData",
   (input1Selector, input2Selector, btnSelector, input1Text, input2Text) => {
-    cy.get(input1Selector).type(input1Text);
-    cy.get(input2Selector).type(input2Text);
+    if (input1Text.length > 0) {
+      cy.get(input1Selector).type(input1Text);
+    }
+    if (input2Text.length > 0) {
+      cy.get(input2Selector).type(input2Text);
+    }
     cy.get(btnSelector).click();
+  }
+);
+
+Cypress.Commands.add(
+  "changePassword",
+  (
+    newpsw1FieldSelector,
+    newpsw2FieldSelector,
+    saveButtonSelector,
+    newPassword
+  ) => {
+    if (newPassword.length > 0) {
+      cy.get(newpsw1FieldSelector).type(newPassword);
+      cy.get(newpsw2FieldSelector).type(newPassword);
+    }
+    cy.get(saveButtonSelector).click({ forse: true });
   }
 );
 

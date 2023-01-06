@@ -1,22 +1,19 @@
-import { LoginPage } from "../pages/loginPage";
-import { RegisterPage } from "../pages/registerPage";
 import { faker } from "@faker-js/faker";
-import { ChangePasswordPage } from "../pages/changePasswordPage";
 const loginData = require("../fixture/loginData.json");
 const registerData = require("../fixture/registerData.json");
 const loginFieldsSelectors = require("../fixture/pages/loginPageSelectors.json");
 const mainPageSelectors = require("../fixture/pages/mainPageSelectors.json");
 const registerFieldsSelectors = require("../fixture/pages/registerPageSelectors.json");
 const accountPageSelectors = require("../fixture/pages/accountPageSelectors.json");
+const changePasswordPageSelectors = require("../fixture/pages/changePasswordPageSelectors.json");
 
 var goodEmail = ""; //Cypress.env("email");
 var goodPassword = ""; //Cypress.env("password");
 var env = Cypress.env("environment");
 
 describe("Secret Santa. Тесты для формы логина", () => {
-  let loginPage = new LoginPage();
-
   // корректные параметры подключения зависят от окружения
+
   if (env == "staging") {
     goodEmail = "shevtma@yandex.ru";
     goodPassword = "ZU9590";
@@ -31,7 +28,13 @@ describe("Secret Santa. Тесты для формы логина", () => {
   });
 
   it("Тестируем форму ввода логина (поля email, password не заполнены)", () => {
-    loginPage.login("", "");
+    cy.inputData(
+      loginFieldsSelectors.loginField,
+      loginFieldsSelectors.passwordField,
+      loginFieldsSelectors.loginButton,
+      "",
+      ""
+    );
     cy.get(loginFieldsSelectors.emailErrLabelSelector)
       .should("be.visible", true)
       .should("have.text", "Обязательное поле");
@@ -44,7 +47,13 @@ describe("Secret Santa. Тесты для формы логина", () => {
   });
 
   it("Тестируем форму ввода логина (поле password не заполнено)", () => {
-    loginPage.login(loginData[1].email, "");
+    cy.inputData(
+      loginFieldsSelectors.loginField,
+      loginFieldsSelectors.passwordField,
+      loginFieldsSelectors.loginButton,
+      loginData[1].email,
+      ""
+    );
     cy.get(loginFieldsSelectors.pwdErrLabelSelector)
       .should("be.visible", true)
       .should("have.text", "Обязательное поле");
@@ -54,7 +63,13 @@ describe("Secret Santa. Тесты для формы логина", () => {
   });
 
   it("Тестируем форму ввода логина (поле email не заполнено)", () => {
-    loginPage.login("", goodPassword);
+    cy.inputData(
+      loginFieldsSelectors.loginField,
+      loginFieldsSelectors.passwordField,
+      loginFieldsSelectors.loginButton,
+      "",
+      goodPassword
+    );
     cy.get(loginFieldsSelectors.emailErrLabelSelector)
       .should("be.visible", true)
       .should("have.text", "Обязательное поле");
@@ -64,7 +79,13 @@ describe("Secret Santa. Тесты для формы логина", () => {
   });
 
   it("Тестируем форму ввода логина (пользователь не зарегистрирован)", () => {
-    loginPage.login(loginData[0].email, loginData[0].password);
+    cy.inputData(
+      loginFieldsSelectors.loginField,
+      loginFieldsSelectors.passwordField,
+      loginFieldsSelectors.loginButton,
+      loginData[0].email,
+      loginData[0].password
+    );
     cy.get(loginFieldsSelectors.errLabelSelector)
       .should("be.visible", true)
       .should(
@@ -79,14 +100,26 @@ describe("Secret Santa. Тесты для формы логина", () => {
   });
 
   it("Тестируем форму ввода логина (введен неверный пароль)", () => {
-    loginPage.login(loginData[2].email, loginData[2].password);
+    cy.inputData(
+      loginFieldsSelectors.loginField,
+      loginFieldsSelectors.passwordField,
+      loginFieldsSelectors.loginButton,
+      loginData[2].email,
+      loginData[2].password
+    );
     cy.get(loginFieldsSelectors.errLabelSelector)
       .should("be.visible", true)
       .should("have.text", "Неверное имя пользователя или пароль");
   });
 
   it("Тестируем форму ввода логина (введен email некорректного формата - без символа @)", () => {
-    loginPage.login(loginData[3].email, goodPassword);
+    cy.inputData(
+      loginFieldsSelectors.loginField,
+      loginFieldsSelectors.passwordField,
+      loginFieldsSelectors.loginButton,
+      loginData[3].email,
+      goodPassword
+    );
     cy.get(loginFieldsSelectors.emailErrLabelSelector)
       .should("be.visible", true)
       .should("have.text", "Некорректный email");
@@ -96,7 +129,13 @@ describe("Secret Santa. Тесты для формы логина", () => {
   });
 
   it("Тестируем форму ввода логина (учетные данные корректны)", () => {
-    loginPage.login(goodEmail, goodPassword);
+    cy.inputData(
+      loginFieldsSelectors.loginField,
+      loginFieldsSelectors.passwordField,
+      loginFieldsSelectors.loginButton,
+      goodEmail,
+      goodPassword
+    );
     cy.get(mainPageSelectors.mainTextSelector)
       .should("be.visible")
       .should(
@@ -110,8 +149,6 @@ describe("Secret Santa. Тесты для формы логина", () => {
 });
 
 describe("Secret Santa. Тесты для формы регистрации", () => {
-  let registerPage = new RegisterPage();
-
   // корректные параметры подключения зависят от окружения
   if (env == "staging") {
     goodEmail = "shevtma@yandex.ru";
@@ -127,28 +164,52 @@ describe("Secret Santa. Тесты для формы регистрации", ()
   });
 
   it("Тестируем форму регистрации. Попытка регистрации с пустыми данными", () => {
-    registerPage.register("", "");
+    cy.inputData(
+      registerFieldsSelectors.userNameField,
+      registerFieldsSelectors.emailField,
+      registerFieldsSelectors.registerButton,
+      "",
+      ""
+    );
     cy.get(registerFieldsSelectors.regErrLabelSelector)
       .should("be.visible")
       .should("have.text", "Некорректное поле");
   });
 
   it("Тестируем форму регистрации. Попытка регистрации с пустым email", () => {
-    registerPage.register("registerData[0].userName", "");
+    cy.inputData(
+      registerFieldsSelectors.userNameField,
+      registerFieldsSelectors.emailField,
+      registerFieldsSelectors.registerButton,
+      registerData[0].userName,
+      ""
+    );
     cy.get(registerFieldsSelectors.regErrLabelSelector)
       .should("be.visible")
       .should("have.text", "Некорректное поле");
   });
 
   it("Тестируем форму регистрации. Попытка регистрации с пустым именем пользователя", () => {
-    registerPage.register("", registerData[1].email);
+    cy.inputData(
+      registerFieldsSelectors.userNameField,
+      registerFieldsSelectors.emailField,
+      registerFieldsSelectors.registerButton,
+      "",
+      registerData[1].email
+    );
     cy.get(registerFieldsSelectors.regErrLabelSelector)
       .should("be.visible")
       .should("have.text", "Некорректное поле");
   });
 
   it("Тестируем форму регистрации. Попытка регистрации пользователя c некорректным email", () => {
-    registerPage.register(registerData[2].userName, registerData[2].email);
+    cy.inputData(
+      registerFieldsSelectors.userNameField,
+      registerFieldsSelectors.emailField,
+      registerFieldsSelectors.registerButton,
+      registerData[2].userName,
+      registerData[2].email
+    );
     cy.get(registerFieldsSelectors.emailErrLabelSelector)
       .should("be.visible")
       .should("have.text", "Некорректный email");
@@ -158,7 +219,13 @@ describe("Secret Santa. Тесты для формы регистрации", ()
   });
 
   it("Тестируем форму регистрации. Попытка регистрации ранее зарегистрированного пользователя", () => {
-    registerPage.register("Maria", goodEmail);
+    cy.inputData(
+      registerFieldsSelectors.userNameField,
+      registerFieldsSelectors.emailField,
+      registerFieldsSelectors.registerButton,
+      "Maria",
+      goodEmail
+    );
     cy.get(registerFieldsSelectors.regErrLabelSelector)
       .should("be.visible")
       .should("have.text", "Такой пользователь уже зарегистрирован. Войти?");
@@ -170,7 +237,13 @@ describe("Secret Santa. Тесты для формы регистрации", ()
   it("Тестируем форму регистрации. Попытка регистрации пользователя (данные корректны)", () => {
     const newUserName = faker.internet.userName();
     const newEmail = faker.internet.email();
-    registerPage.register(newUserName, newEmail);
+    cy.inputData(
+      registerFieldsSelectors.userNameField,
+      registerFieldsSelectors.emailField,
+      registerFieldsSelectors.registerButton,
+      newUserName,
+      newEmail
+    );
     cy.get(registerFieldsSelectors.successTitleSelector)
       .should("be.visible")
       .should("have.text", "Письмо отправлено!");
@@ -184,9 +257,6 @@ describe("Secret Santa. Тесты для формы регистрации", ()
 });
 
 describe("Secret Santa. Смена пароля пользователя", () => {
-  let loginPage = new LoginPage();
-  let changePasswordPage = new ChangePasswordPage();
-
   // корректные параметры подключения зависят от окружения
   if (env == "staging") {
     goodEmail = "shevtma@yandex.ru";
@@ -200,30 +270,56 @@ describe("Secret Santa. Смена пароля пользователя", () =>
     let newPassword = faker.internet.password(8);
     cy.visit("/login");
     //login to the account with old password
-    loginPage.login(goodEmail, goodPassword);
+    cy.inputData(
+      loginFieldsSelectors.loginField,
+      loginFieldsSelectors.passwordField,
+      loginFieldsSelectors.loginButton,
+      goodEmail,
+      goodPassword
+    );
     //go to the account properties page
     cy.get(mainPageSelectors.userNameSelector)
       .should("be.visible")
       .should("have.text", "Maria")
-      .click({ forse: true });
+      .click({ forse: true, timeout: 5000 });
     //changing password to the new
-    changePasswordPage.changePassword(newPassword);
-    // exit from account
-    cy.get(accountPageSelectors.exitSelector).click({ forse: true });
+    cy.changePassword(
+      changePasswordPageSelectors.newpsw1Field,
+      changePasswordPageSelectors.newpsw2Field,
+      changePasswordPageSelectors.saveButton,
+      newPassword
+    );
+    cy.contains("Выйти с сайта").then(() => {
+      // exit from account
+      cy.get(accountPageSelectors.exitSelector).click({ forse: true });
+    });
 
     cy.visit("/login");
     //login to the account with new password
-    loginPage.login(goodEmail, newPassword);
+    cy.inputData(
+      loginFieldsSelectors.loginField,
+      loginFieldsSelectors.passwordField,
+      loginFieldsSelectors.loginButton,
+      goodEmail,
+      newPassword
+    );
     //go to the account properties page
     cy.get(mainPageSelectors.userNameSelector)
       .should("be.visible")
       .should("have.text", "Maria")
-      .click({ forse: true });
+      .click({ forse: true, timeout: 5000 });
 
     //changing password to the old
-    changePasswordPage.changePassword(goodPassword);
-    // exit from account
-    cy.get(accountPageSelectors.exitSelector).click({ forse: true });
+    cy.changePassword(
+      changePasswordPageSelectors.newpsw1Field,
+      changePasswordPageSelectors.newpsw2Field,
+      changePasswordPageSelectors.saveButton,
+      goodPassword
+    );
+    cy.contains("Выйти с сайта").then(() => {
+      // exit from account
+      cy.get(accountPageSelectors.exitSelector).click({ forse: true });
+    });
   });
 });
 
